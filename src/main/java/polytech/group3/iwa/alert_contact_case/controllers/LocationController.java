@@ -24,7 +24,6 @@ public class LocationController {
 
     @GetMapping
     public List<Location> list() {
-        System.out.println(LocalDateTime.now());
         return locationRepository.findAll();
     }
 
@@ -32,15 +31,24 @@ public class LocationController {
     @RequestMapping("/dangerous")
     public List<Location> listDangerous(@RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude, @RequestParam(value="timestamp") String timestamp) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        System.out.println(timestamp);
         return locationRepository.findDangerousLocation(longitude, latitude, LocalDateTime.parse(timestamp, formatter));
     }
 
     @PostMapping
     @RequestMapping("/add")
-    public void addLocation(@RequestParam(value="userid") int userid, @RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude, @RequestParam(value="timestamp") String timestamp){
-        LocationKafka message = new LocationKafka(longitude, latitude, timestamp, userid);
+    public void addLocation(@RequestParam(value="userid") int userid, @RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude){
+        LocationKafka message = new LocationKafka(latitude, longitude, LocalDateTime.now().toString().substring(0, 19), userid);
         kafkaSender.sendMessage(message, "location");
     }
+
+    @PostMapping
+    @RequestMapping("/addDangerous")
+    public void addDangerousLocation(@RequestParam(value="userid") int userid, @RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude, @RequestParam(value="timestamp") String timestamp){
+        LocationKafka message = new LocationKafka(latitude, longitude, timestamp, userid);
+        System.out.println("envoi de localisation dangereuse");
+        kafkaSender.sendMessage(message, "dangerous_location");
+    }
+
+
 
 }
