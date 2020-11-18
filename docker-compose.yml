@@ -1,5 +1,21 @@
 version: '2'
 services:
+  postgres-covid:
+    image: library/postgres:13.0-alpine
+    container_name: postgres-covid
+    ports:
+      - "5432:5432"
+    volumes:
+    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Welcome
+
   zookeeper:
     image: debezium/zookeeper
     container_name: zookeeper
@@ -24,6 +40,7 @@ services:
     ports:
       - "8083:8083"
     environment:
+      BOOTSTRAP_SERVERS: kafka:9092
       ADVERTISED_HOST_NAME: connect
       GROUP_ID: 1
       CONFIG_STORAGE_TOPIC: my-connect-configs
@@ -31,5 +48,4 @@ services:
     links:
       - zookeeper
       - kafka
-    external_links:
-      - postgres-covid:postgres-covid
+      - postgres-covid
