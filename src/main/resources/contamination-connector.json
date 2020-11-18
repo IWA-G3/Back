@@ -3,13 +3,13 @@
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
-    "database.hostname": "${DB_HOSTNAME}",
-    "database.port": "${DB_PORT}",
-    "database.user": "${DB_USER}",
-    "database.password": "${DB_PASSWORD}",
-    "database.dbname" : "${DB_NAME}",
-    "database.server.name": "${DB_NAME}",
-    "database.whitelist": "${DB_NAME}",
+    "database.hostname": "postgres-covid",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "Welcome",
+    "database.dbname" : "covid_alert_db",
+    "database.server.name": "covid_alert_db",
+    "database.whitelist": "covid_alert_db",
     "table.whitelist": "public.case_type"
   }
 }

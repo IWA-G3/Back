@@ -3,9 +3,9 @@
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "topics": "dangerous_locations",
-    "connection.url": "jdbc:postgresql://${DB_HOSTNAME:${DB_PORT}/${DB_NAME}?user=${DB_USER}&password=${DB_PASSWORD}",
+    "connection.url": "jdbc:postgresql://postgres-covid:5432/covid_alert_db?user=postgres&password=Welcome",
     "transforms": "unwrap",
-    "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
     "auto.create": "true",
     "insert.mode": "upsert",
     "pk.fields": "id_location",
