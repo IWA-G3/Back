@@ -10,6 +10,6 @@
     "database.dbname" : "covid_alert_db",
     "database.server.name": "covid_alert_db",
     "database.whitelist": "covid_alert_db",
-    "table.whitelist": "public.case_type"
+    "table.whitelist": "public.covid_info"
   }
 }

@@ -1,4 +1,5 @@
 -- Database: covid_alert_db
+ALTER SYSTEM SET wal_level = logical;
 
 DROP DATABASE IF EXISTS covid_alert_db;
 
@@ -42,7 +43,7 @@ CREATE TABLE covid_info (
 	id_keycloak integer not null,
 	id_case_type integer not null,
 	reporting_date time without time zone not null,
-	constraint cp_covid_info PRIMARY KEY (id_keycloak, id_case_type),
+	constraint cp_covid_info PRIMARY KEY (id_keycloak, id_case_type, reporting_date),
 	constraint ce1_covid_info FOREIGN KEY (id_keycloak) REFERENCES users(id_keycloak),
 	constraint ce2_covid_info FOREIGN KEY (id_case_type) REFERENCES case_type(id_case_type)
 );
