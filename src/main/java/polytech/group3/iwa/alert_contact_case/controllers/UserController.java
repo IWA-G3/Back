@@ -69,12 +69,6 @@ public class UserController {
         return covidInfoRepository.saveAndFlush(covidInfo);
     }
 
-    @GetMapping
-    @RequestMapping("/test")
-    public List<CovidInfo> listDangerous() {
-        return covidInfoRepository.findAll();
-    }
-
     public boolean isValidCovidInfo(CovidInfo covidInfo) {
         return covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getReporting_date() != null;
     }

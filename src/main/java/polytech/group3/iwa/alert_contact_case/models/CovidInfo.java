@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity(name="covid_info")
 @Access(AccessType.FIELD)
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler", "user", "caseType"})
 public class CovidInfo {
 
     @EmbeddedId
