@@ -18,10 +18,7 @@ public class User {
 
     private String contact_mail;
 
-    @ManyToMany
-    @JoinTable(name="user_locations",
-            joinColumns = @JoinColumn(name="id_keycloak"),
-            inverseJoinColumns = @JoinColumn(name="id_location"))
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Location> locations;
 

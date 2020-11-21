@@ -21,16 +21,12 @@ CREATE TABLE users (
 
 CREATE TABLE locations (
 	id_location integer not null,
+	id_keycloak integer not null,
 	latitude double precision not null,
 	longitude double precision not null,
 	location_date timestamp without time zone not null,
+	constraint ce1_user FOREIGN KEY (id_keycloak) REFERENCES users(id_keycloak),
 	constraint cp_location PRIMARY KEY (id_location)
-);
-
-CREATE TABLE user_locations
-(
-    id_keycloak integer NOT NULL REFERENCES users (id_keycloak),
-    id_location integer NOT NULL REFERENCES locations (id_location)
 );
 
 CREATE TABLE case_type (

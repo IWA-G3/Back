@@ -22,9 +22,10 @@ public class Location {
 
     private LocalDateTime location_date;
 
-    @ManyToMany(mappedBy = "locations")
+    @ManyToOne
+    @JoinColumn(name = "id_keycloak")
     @JsonIgnore
-    private List<User> users;
+    private User user;
 
     public int getId_location() {
         return id_location;
@@ -58,11 +59,11 @@ public class Location {
         this.location_date = locating_date;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public User getUsers() {
+        return user;
     }
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(User user) {
+        this.user = user;
     }
 
 }
