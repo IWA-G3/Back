@@ -23,11 +23,6 @@ public class LocationController {
     private KafkaSender kafkaSender;
 
     @GetMapping
-    public List<Location> list() {
-        return locationRepository.findAll();
-    }
-
-    @GetMapping
     @RequestMapping("/dangerous")
     public List<Location> listDangerous(@RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude, @RequestParam(value="timestamp") String timestamp) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");

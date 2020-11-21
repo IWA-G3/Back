@@ -1,0 +1,9 @@
+locations:
+  - id_location: 1
+    latitude: 43.402894599999996
+    longitude: 3.6956252999999997
+    location_date: 2004-10-19 10:23:54
+  - id_location: 2
+    latitude: 2.0
+    longitude: 2.0
+    location_date: 2020-10-19 10:23:54
