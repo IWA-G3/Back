@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="layout :: headerFragment">
 </head>
-<body>
+<body style="margin: 20px">
 <h1>Covid Alert</h1>
 
 <form action="#" th:action="@{login}" th:object="${login}" method="post">
     <div class="form-group">
         <label for="email">Adresse mail</label>
         <input type="text" th:field="*{email}" class="form-control" id="email" name="email">
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
 
     </div>
     <div class="form-group">
         <label for="password">Mot de passe</label>
         <input type="password" th:field="*{password}" class="form-control" id="password" name="password">
-        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
 
     </div>
     <button type="submit" class="btn btn-primary">Se connecter</button>

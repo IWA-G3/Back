@@ -2,14 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="layout :: headerFragment">
 </head>
-<body>
+<body style="margin: 20px">
 <h1>Covid Alert</h1>
 
-<button type="button" onclick="getLocation()" class="btn btn-outline-primary">Localisez-vous</button>
-
-<button type="button" class="btn btn-outline-danger" onclick="declarePositive()">Vous avez été testé positif</button>
-
-<button type="button" class="btn btn-outline-secondary">Déconnexion</button>
+<button type="button" onclick="getLocation()" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Localisez-vous</button>
+<form action="#" th:action="@{declarePositive}" method="post" style="margin-bottom: 20px; display: inline-block">
+    <input type="hidden" id="id_keycloak" name="id_keycloak" value="1">
+    <button type="submit" class="btn btn-outline-danger">Vous avez été testé positif</button>
+</form>
+<form action="#" th:action="@{logout}" method="post" style="margin-bottom: 20px; display: inline-block">
+    <button type="submit" class="btn btn-outline-secondary">Déconnexion</button>
+</form>
 
 <br/><br/>
 <div class="alert alert-success" id="localisation_success" role="alert"></div>
