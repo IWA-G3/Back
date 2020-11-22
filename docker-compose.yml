@@ -21,8 +21,8 @@ services:
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_USER: admin-ui
+      KEYCLOAK_PASSWORD: admin-ui
     ports:
       - 5555:8080
     depends_on:
