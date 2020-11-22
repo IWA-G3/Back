@@ -118,7 +118,7 @@ class KafkaReceiver {
         }
         locationList.add(message);
         int i = 0;
-        while(i < locationList.size() && Duration.between(LocalDateTime.parse(locationList.get(i).getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), LocalDateTime.now()).toHours() > 72) {
+        while(i < locationList.size() && Duration.between(LocalDateTime.parse(locationList.get(i).getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), LocalDateTime.now()).toHours() > 168) {
             locationList.remove(i);
         };
         System.out.println("there are " + locationList.size() +  " locations");
