@@ -18,16 +18,13 @@ public class User {
 
     private String contact_mail;
 
-    @ManyToMany
-    @JoinTable(name="user_locations",
-            joinColumns = @JoinColumn(name="id_keycloak"),
-            inverseJoinColumns = @JoinColumn(name="id_location"))
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Location> locations;
 
     @OneToMany(mappedBy="user")
     @JsonIgnore
-    private List<CovidInfo> case_types;
+    private List<CovidInfo> covidInfos;
 
     public int getId_keycloak() {
         return id_keycloak;
@@ -48,16 +45,16 @@ public class User {
     public List<Location> getLocations() {
         return locations;
     }
+
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
 
-    public List<CovidInfo> getCase_types() {
-        return case_types;
+    public List<CovidInfo> getCovidInfos() {
+        return covidInfos;
     }
 
-    public void setCase_types(List<CovidInfo> case_types) {
-        this.case_types = case_types;
+    public void setCovidInfos(List<CovidInfo> covidInfos) {
+        this.covidInfos = covidInfos;
     }
-
 }

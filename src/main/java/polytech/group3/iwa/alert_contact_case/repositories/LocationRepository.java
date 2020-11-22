@@ -2,7 +2,6 @@ package polytech.group3.iwa.alert_contact_case.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import polytech.group3.iwa.alert_contact_case.models.Location;
 
 import java.time.LocalDateTime;
