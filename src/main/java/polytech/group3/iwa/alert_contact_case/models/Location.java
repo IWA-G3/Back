@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity(name="locations")
 @Access(AccessType.FIELD)
@@ -59,10 +58,11 @@ public class Location {
         this.location_date = locating_date;
     }
 
-    public User getUsers() {
+    public User getUser() {
         return user;
     }
-    public void setUsers(User user) {
+
+    public void setUser(User user) {
         this.user = user;
     }
 

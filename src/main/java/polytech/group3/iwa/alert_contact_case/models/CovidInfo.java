@@ -3,7 +3,6 @@ package polytech.group3.iwa.alert_contact_case.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity(name="covid_info")
 @Access(AccessType.FIELD)

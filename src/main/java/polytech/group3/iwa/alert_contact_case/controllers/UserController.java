@@ -6,17 +6,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import polytech.group3.iwa.alert_contact_case.models.CaseType;
 import polytech.group3.iwa.alert_contact_case.models.CovidInfo;
-import polytech.group3.iwa.alert_contact_case.models.CovidInfoId;
-import polytech.group3.iwa.alert_contact_case.models.Location;
 import polytech.group3.iwa.alert_contact_case.repositories.CaseTypeRepository;
 import polytech.group3.iwa.alert_contact_case.repositories.CovidInfoRepository;
 import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -70,7 +63,7 @@ public class UserController {
     }
 
     public boolean isValidCovidInfo(CovidInfo covidInfo) {
-        return covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getReporting_date() != null;
+        return covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getId_keycloak() != 0 && covidInfo.getCovidInfoId().getReporting_date() != null;
     }
 
 }
