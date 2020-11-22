@@ -1,5 +1,6 @@
 package polytech.group3.iwa.alert_contact_case.controllers;
 
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
@@ -7,9 +8,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import polytech.group3.iwa.alert_contact_case.models.CovidInfo;
+import polytech.group3.iwa.alert_contact_case.models.CovidInfoId;
 import polytech.group3.iwa.alert_contact_case.repositories.CaseTypeRepository;
 import polytech.group3.iwa.alert_contact_case.repositories.CovidInfoRepository;
 import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("api/users")
@@ -42,9 +46,10 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/declarePositive")
-    public CovidInfo newContamination(@RequestBody CovidInfo covidInfo) {
-        // TODO : Implement Keycloak annotation
-
+    public CovidInfo newContamination(@RequestHeader (name="Authorization") String token) {
+        //Retrieve JWT token and get user Id
+        int userid = Integer.parseInt((String) Jwts.parser().setSigningKey("secret").parseClaimsJws(token).getBody().get("id_keycloak"));
+        CovidInfo covidInfo = new CovidInfo(new CovidInfoId(userid,1, LocalDateTime.now()));
         //Check that all the required fields are not null
         if (!isValidCovidInfo(covidInfo)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
