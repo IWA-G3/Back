@@ -7,7 +7,6 @@
 
 <button type="button" onclick="getLocation()" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Localisez-vous</button>
 <form action="#" th:action="@{declarePositive}" method="post" style="margin-bottom: 20px; display: inline-block">
-    <input type="hidden" id="id_keycloak" name="id_keycloak" value="1">
     <button type="submit" class="btn btn-outline-danger">Vous avez été testé positif</button>
 </form>
 <form action="#" th:action="@{logout}" method="post" style="margin-bottom: 20px; display: inline-block">
@@ -48,7 +47,7 @@
     function sendPosition(position) {
         jQuery(document).ready(function () {
             jQuery.post("http://localhost:8080/api/locations/add?longitude=" + position.coords.longitude + "&latitude="
-            + position.coords.latitude + "&userid=1", (data) => {
+            + position.coords.latitude, (data) => {
                 console.log(data)
                 x.innerHTML = "Vous avez été localisé. Pensez à vérifier vos mails pour savoir si vous êtes sur une localisation dangereuse"
                 x.style.display = ""

@@ -12,6 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping("api/locations")
@@ -34,7 +35,8 @@ public class LocationController {
     @PostMapping
     @RequestMapping("/add")
     @RolesAllowed("user")
-    public void addLocation(@RequestParam(value="userid") int userid, @RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude){
+    public void addLocation(@RequestParam(value="longitude") double longitude, @RequestParam(value="latitude") double latitude, @RequestHeader (name="Authorization") String token){
+        int userid = Integer.parseInt((String) Jwts.parser().parseClaimsJws(token).getBody().get("id_keycloak"));
         LocationKafka message = new LocationKafka(latitude, longitude, LocalDateTime.now().toString().substring(0, 19), userid);
         kafkaSender.sendMessage(message, "location");
     }
