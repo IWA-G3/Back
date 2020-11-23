@@ -5,11 +5,9 @@
 <body style="margin: 20px">
 <h1>Covid Alert</h1>
 
-<button type="button" onclick="getLocation()" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Localisez-vous</button>
-<form action="#" th:action="@{declarePositive}" method="post" style="margin-bottom: 20px; display: inline-block">
-    <button type="submit" class="btn btn-outline-danger">Vous avez été testé positif</button>
-</form>
-<form action="#" th:action="@{logout}" method="post" style="margin-bottom: 20px; display: inline-block">
+<button type="submit" onclick=getLocation() style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Envoyer ma position</button>
+<button type="submit" onclick=declarePositiveCase() class="btn btn-outline-danger">Vous avez été testé positif</button>
+<form action="#" th:action="@{doLogout}" method="post" style="margin-bottom: 20px; display: inline-block">
     <button type="submit" class="btn btn-outline-secondary">Déconnexion</button>
 </form>
 
@@ -40,20 +38,29 @@
             y.innerHTML = "La localisation n'a pas fonctionné. Essayez avec un autre navigateur";
             y.style.display = ""
             setTimeout(() => { y.style.display = "none";}, 5000)
-
         }
     }
 
     function sendPosition(position) {
-        jQuery(document).ready(function () {
-            jQuery.post("http://localhost:8080/api/locations/add?longitude=" + position.coords.longitude + "&latitude="
-            + position.coords.latitude, (data) => {
-                console.log(data)
-                x.innerHTML = "Vous avez été localisé. Pensez à vérifier vos mails pour savoir si vous êtes sur une localisation dangereuse"
-                x.style.display = ""
-                setTimeout(() => { x.style.display = "none";}, 5000)
-
+        $(document).ready(function () {
+            $.ajax({
+                url: 'api/locations/add',
+                type: 'post',
+                data: {longitude: position.coords.longitude, latitude: position.coords.latitude},
+                success: function() {console.log("ok")}
             })
+
+            x.innerHTML = "Vous avez été localisé. Pensez à vérifier vos mails pour savoir si vous êtes sur une localisation dangereuse"
+            x.style.display = ""
+            setTimeout(() => { x.style.display = "none";}, 5000)
+        })
+    }
+
+    function declarePositiveCase() {
+        $.ajax({
+            url: 'api/users/declarePositive',
+            type: 'post',
+            success: function() {console.log("ok")}
         })
     }
 </script>
