@@ -1,0 +1,16 @@
+{
+  "name": "dangerous-location-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "topics": "dangerous_location",
+    "connection.url": "jdbc:postgresql://postgres-covid:5432/covid_alert_db?user=postgres&password=Welcome",
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "auto.create": "true",
+    "insert.mode": "upsert",
+    "pk.fields": "id_location",
+    "pk.mode": "record_key",
+    "plugin.name": "pgoutput",
+    "table.whitelist": "public.locations"
+  }
+}

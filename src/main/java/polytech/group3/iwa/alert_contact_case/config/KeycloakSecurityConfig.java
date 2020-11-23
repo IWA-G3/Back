@@ -1,4 +1,4 @@
-package polytech.groupe3.iwa.Identity.config;
+package polytech.group3.iwa.alert_contact_case.config;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

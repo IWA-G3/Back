@@ -1,4 +1,4 @@
-package polytech.groupe3.iwa.Identity.controller;
+package polytech.group3.iwa.alert_contact_case.controllers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

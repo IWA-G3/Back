@@ -1,0 +1,15 @@
+{
+  "name": "contamination-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres-covid",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "Welcome",
+    "database.dbname" : "covid_alert_db",
+    "database.server.name": "covid_alert_db",
+    "database.whitelist": "covid_alert_db",
+    "table.whitelist": "public.covid_info"
+  }
+}
