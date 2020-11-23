@@ -1,7 +1,5 @@
 package polytech.group3.iwa.alert_contact_case.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,9 +13,8 @@ public class CaseType {
 
     private String description;
 
-    @OneToMany(mappedBy="case_type")
-    @JsonIgnore
-    private List<CovidInfo> users;
+    @OneToMany(mappedBy="caseType")
+    private List<CovidInfo> covidInfos;
 
     public int getId_case_type() {
         return id_case_type;
@@ -35,12 +32,11 @@ public class CaseType {
         this.description = description;
     }
 
-    public List<CovidInfo> getUsers() {
-        return users;
+    public List<CovidInfo> getCovidInfos() {
+        return covidInfos;
     }
 
-    public void setUsers(List<CovidInfo> users) {
-        this.users = users;
+    public void setCovidInfos(List<CovidInfo> covidInfos) {
+        this.covidInfos = covidInfos;
     }
-
 }
