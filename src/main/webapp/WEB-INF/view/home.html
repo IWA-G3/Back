@@ -6,6 +6,7 @@
 <h1>Covid Alert</h1>
 
 <button type="submit" onclick=getLocation() style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Envoyer ma position</button>
+
 <button type="submit" onclick=declarePositiveCase() class="btn btn-outline-danger">Vous avez été testé positif</button>
 
 <form action="#" th:action="@{logout}" method="post" style="margin-bottom: 20px; display: inline-block">
@@ -51,12 +52,21 @@
                 url: 'api/locations/add',
                 type: 'post',
                 data: {longitude: position.coords.longitude, latitude: position.coords.latitude},
-                success: function() {console.log("ok")}
+                success: function() {
+                    x.innerHTML = "Vous avez été localisé. Pensez à vérifier vos mails pour savoir si vous êtes sur une localisation dangereuse"
+                    x.style.display = ""
+                    setTimeout(() => { x.style.display = "none";}, 5000)
+                    console.log("ok")
+                },
+                error: function(){
+                    y.innerHTML = "Erreur de localisation"
+                    y.style.display = ""
+                    setTimeout(() => { y.style.display = "none";}, 5000)
+                    console.log("erreur")
+                }
             })
 
-            x.innerHTML = "Vous avez été localisé. Pensez à vérifier vos mails pour savoir si vous êtes sur une localisation dangereuse"
-            x.style.display = ""
-            setTimeout(() => { x.style.display = "none";}, 5000)
+
         })
     }
 
@@ -64,7 +74,18 @@
         $.ajax({
             url: 'api/users/declarePositive',
             type: 'post',
-            success: function() {console.log("ok")}
+            success: function() {
+                x.innerHTML = "Declaration Reussite !"
+                x.style.display = ""
+                setTimeout(() => { x.style.display = "none";}, 5000)
+                console.log("ok")
+            },
+            error: function(){
+                y.innerHTML = "Erreur de localisation"
+                y.style.display = ""
+                setTimeout(() => { y.style.display = "none";}, 5000)
+                console.log("erreur")
+            }
         })
     }
 </script>

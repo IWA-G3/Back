@@ -17,8 +17,7 @@ import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@RestController
-@RequestMapping("api/users")
+@RestController("api/users")
 public class UserController {
 
     @Autowired
@@ -30,8 +29,7 @@ public class UserController {
     @Autowired
     private CovidInfoRepository covidInfoRepository;
 
-    @PostMapping
-    @RequestMapping("/declarePositive")
+    @PostMapping("/declarePositive")
     public CovidInfo newContamination() {
 
         //Retrieve user Id
