@@ -1,9 +1,12 @@
 package polytech.group3.iwa.alert_contact_case.controllers;
 
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import polytech.group3.iwa.alert_contact_case.models.CovidInfo;
 import polytech.group3.iwa.alert_contact_case.models.CovidInfoId;
@@ -12,6 +15,7 @@ import polytech.group3.iwa.alert_contact_case.repositories.CovidInfoRepository;
 import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/users")
@@ -28,16 +32,18 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/declarePositive")
-    public CovidInfo newContamination(@RequestHeader (name="Authorization") String token) {
-        //Retrieve JWT token and get user Id
-        int userid = Integer.parseInt((String) Jwts.parser().setSigningKey("secret").parseClaimsJws(token).getBody().get("id_keycloak"));
-        CovidInfo covidInfo = new CovidInfo(new CovidInfoId(userid,1, LocalDateTime.now()));
+    public CovidInfo newContamination(@RequestHeader(name = "Authorization") String token) {
+
+        //Retrieve user Id
+        String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        CovidInfo covidInfo = new CovidInfo(new CovidInfoId(userid, 1, LocalDateTime.now()));
         //Check that all the required fields are not null
         if (!isValidCovidInfo(covidInfo)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         //Check if the specified case type exists in the database
-        if(!caseTypeRepository.existsById(covidInfo.getCovidInfoId().getId_case_type())) {
+        if (!caseTypeRepository.existsById(covidInfo.getCovidInfoId().getId_case_type())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
@@ -50,7 +56,7 @@ public class UserController {
     }
 
     public boolean isValidCovidInfo(CovidInfo covidInfo) {
-        return covidInfo.getCovidInfoId().getId_case_type() != 0 && covidInfo.getCovidInfoId().getId_keycloak() != 0 && covidInfo.getCovidInfoId().getReporting_date() != null;
+        return covidInfo.getCovidInfoId().getId_case_type() != 0 && !Objects.equals(covidInfo.getCovidInfoId().getId_keycloak(), "") && covidInfo.getCovidInfoId().getReporting_date() != null;
     }
 
 }

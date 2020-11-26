@@ -30,7 +30,7 @@ import static java.lang.Math.*;
 @EnableKafka
 public class KafkaReceiver {
 
-    private List<LocationKafka> locationList = new ArrayList<LocationKafka>();
+    private List<LocationKafka> locationList = new ArrayList<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaReceiver.class);
 
     private CountDownLatch latch = new CountDownLatch(1);
@@ -52,22 +52,21 @@ public class KafkaReceiver {
         return latch;
     }
 
-    private void sendWarningMail(List<Integer> listId) {
+    private void sendWarningMail(List<String> listId) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject("IMPORTANT - COVID ALERT");
         message.setText("Hello, you have recently added a location to our application. This location was recently frequented by a person positive to covid-19. You are now considered as a contact case. Please, be tested as soon as possible.");
 
-        for(int i = 0; i < listId.size(); i++) {
-            String user = userRepository.findMailFromId(listId.get(i));
+        for (String s : listId) {
+            String user = userRepository.findMailFromId(s);
             message.setTo(user);
             this.emailSender.send(message);
         }
     }
 
     public double distance(double lon1, double lat1, double lon2, double lat2) {
-        double res = acos(sin(lat1 * PI/180.) * sin(lat2 * PI/180.) + cos(lat1 * PI/180.) * cos(lat2 * PI/180.) * cos((lon1 - lon2) * PI/180.)) * 180./PI * 60. * 1.1515 * 1.609344;
 
-        return res;
+        return acos(sin(lat1 * PI/180.) * sin(lat2 * PI/180.) + cos(lat1 * PI/180.) * cos(lat2 * PI/180.) * cos((lon1 - lon2) * PI/180.)) * 180./PI * 60. * 1.1515 * 1.609344;
     }
 
     @KafkaListener(topics = "dangerous_location")
@@ -75,10 +74,10 @@ public class KafkaReceiver {
         System.out.println("losalisation dangereuse reçue");
         LOGGER.info("received dangerous location='{}'", location.toString());
         int i = locationList.size() - 1;
-        List<Integer> listId = new ArrayList<Integer>();
+        List<String> listId = new ArrayList<>();
         while(i >= 0 && Duration.between(LocalDateTime.parse(locationList.get(i).getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), LocalDateTime.parse(location.getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))).toMinutes() < 60) {
             if (distance(location.getLongitude(), location.getLatitude(), locationList.get(i).getLongitude(), locationList.get(i).getLatitude()) < 0.015) {
-                if(locationList.get(i).getUserid() != location.getUserid() && !listId.contains(locationList.get(i).getUserid())) {
+                if(!Objects.equals(locationList.get(i).getUserid(), location.getUserid()) && !listId.contains(locationList.get(i).getUserid())) {
                     listId.add(locationList.get(i).getUserid());
                 }
             }
@@ -117,7 +116,7 @@ public class KafkaReceiver {
         int i = 0;
         while(i < locationList.size() && Duration.between(LocalDateTime.parse(locationList.get(i).getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), LocalDateTime.now()).toHours() > 168) {
             locationList.remove(i);
-        };
+        }
         System.out.println("there are " + locationList.size() +  " locations");
         latch.countDown();
     }

@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_keycloak;
+    private String id_keycloak;
 
     private String contact_mail;
 
@@ -26,11 +26,11 @@ public class User {
     @JsonIgnore
     private List<CovidInfo> covidInfos;
 
-    public int getId_keycloak() {
+    public String getId_keycloak() {
         return id_keycloak;
     }
 
-    public void setId_keycloak(int id_keycloak) {
+    public void setId_keycloak(String id_keycloak) {
         this.id_keycloak = id_keycloak;
     }
 

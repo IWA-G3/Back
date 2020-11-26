@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: headerFragment">
+
+    <title>Welcome</title>
+</head>
+<body style="margin: 20px">
+
+<h1>Covid Alert</h1>
+
+<a th:href="@{/home}">Connectez-vous</a>
+
+<!--<p th:text="${message}"></p>-->
+
+<th:block layout:fragment="layout :: scripts"></th:block>
+
+
+</body>
+</html>

@@ -31,7 +31,9 @@ Recuperer le secret client de ce client dans l'onglet credentials,
 Creer un role admin (avec composite Roles ON, 
 Client Roles -> realm-management -> ajouter view-user, query-user, manage-user )
 
-Creer un user administrateur, lui ajouter le role admin et un mot de passe. 
+Creer un user administrateur, lui ajouter le role admin et un mot de passe.
+
+Realm-setting => Login => enable User Registration 
 
 ## Required Environement for Spring Boot:
 

@@ -7,7 +7,8 @@
 
 <button type="submit" onclick=getLocation() style="margin-top: 20px; margin-bottom: 20px" class="btn btn-outline-primary">Envoyer ma position</button>
 <button type="submit" onclick=declarePositiveCase() class="btn btn-outline-danger">Vous avez été testé positif</button>
-<form action="#" th:action="@{doLogout}" method="post" style="margin-bottom: 20px; display: inline-block">
+
+<form action="#" th:action="@{logout}" method="post" style="margin-bottom: 20px; display: inline-block">
     <button type="submit" class="btn btn-outline-secondary">Déconnexion</button>
 </form>
 
@@ -41,8 +42,11 @@
         }
     }
 
+    // Todo : add auth Bearer Token to ajax
+
     function sendPosition(position) {
         $(document).ready(function () {
+
             $.ajax({
                 url: 'api/locations/add',
                 type: 'post',

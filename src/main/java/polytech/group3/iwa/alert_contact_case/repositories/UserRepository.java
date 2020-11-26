@@ -8,10 +8,10 @@ import polytech.group3.iwa.alert_contact_case.models.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select contact_mail " +
             "from users " +
             "where id_keycloak = ?1", nativeQuery = true)
-    String findMailFromId(int id);
+    String findMailFromId(String id);
 }
