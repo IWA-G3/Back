@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@RestController("api/locations")
+@RestController
+@RequestMapping("api/locations")
 public class LocationController {
 
     @Autowired
@@ -30,14 +31,14 @@ public class LocationController {
     @PostMapping("/add")
     public void addLocation(@RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude) {
 
-        String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         LocationKafka message = new LocationKafka(latitude, longitude, LocalDateTime.now().toString().substring(0, 19), userid);
         kafkaSender.sendMessage(message, "location");
     }
 
     @PostMapping("/addDangerous")
     public void addDangerousLocation( @RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude, @RequestParam(value = "timestamp") String timestamp) {
-        String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         LocationKafka message = new LocationKafka(latitude, longitude, timestamp, userid);
         System.out.println("envoi de localisation dangereuse");
         kafkaSender.sendMessage(message, "dangerous_location");

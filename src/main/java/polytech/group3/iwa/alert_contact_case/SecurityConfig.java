@@ -55,6 +55,6 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                     .permitAll();
-
+        http.csrf().disable();
     }
 }

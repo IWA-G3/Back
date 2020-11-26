@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,7 +16,8 @@ import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@RestController("api/users")
+@RestController
+@RequestMapping("api/users")
 public class UserController {
 
     @Autowired
@@ -33,9 +33,10 @@ public class UserController {
     public CovidInfo newContamination() {
 
         //Retrieve user Id
-        String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 
         CovidInfo covidInfo = new CovidInfo(new CovidInfoId(userid, 1, LocalDateTime.now()));
+
         //Check that all the required fields are not null
         if (!isValidCovidInfo(covidInfo)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
