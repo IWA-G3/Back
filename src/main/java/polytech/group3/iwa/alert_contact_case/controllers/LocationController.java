@@ -37,7 +37,8 @@ public class LocationController {
     }
 
     @PostMapping("/addDangerous")
-    public void addDangerousLocation(@RequestParam(value = "userid") String userid, @RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude, @RequestParam(value = "timestamp") String timestamp) {
+    public void addDangerousLocation( @RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude, @RequestParam(value = "timestamp") String timestamp) {
+        String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         LocationKafka message = new LocationKafka(latitude, longitude, timestamp, userid);
         System.out.println("envoi de localisation dangereuse");
         kafkaSender.sendMessage(message, "dangerous_location");

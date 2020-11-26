@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/declarePositive")
-    public CovidInfo newContamination(@RequestHeader(name = "Authorization") String token) {
+    public CovidInfo newContamination() {
 
         //Retrieve user Id
         String userid = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
