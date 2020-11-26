@@ -28,11 +28,6 @@ Creer un client qui sert a l'application a s'identifier (Acces Type : confidenti
 
 Recuperer le secret client de ce client dans l'onglet credentials,
 
-Creer un role admin (avec composite Roles ON, 
-Client Roles -> realm-management -> ajouter view-user, query-user, manage-user )
-
-Creer un user administrateur, lui ajouter le role admin et un mot de passe.
-
 Realm-setting => Login => enable User Registration 
 
 ## Required Environement for Spring Boot:
@@ -43,8 +38,7 @@ KCK_CLIENT_ID= keycloak client Id
 KCK_URL= Url of KeyCloak
 KCK_REALM= Nom du realm keacloak
 
-KCK_ADMIN_PWD = Password of admin user
-KCK_ADMIN_USER = Password of admin user
+
 
 DB_USERNAME = username of the Postrgres
 
