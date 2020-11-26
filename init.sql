@@ -14,7 +14,7 @@ CREATE DATABASE covid_alert_db
 \c covid_alert_db
 
 CREATE TABLE users (
-	id_keycloak integer not null,
+	id_keycloak varchar(50) not null,
 	contact_mail varchar(50) not null,
 	constraint cp_keycloak PRIMARY KEY (id_keycloak)
 );
@@ -29,7 +29,7 @@ CREATE TABLE locations (
 
 CREATE TABLE user_locations
 (
-    id_keycloak integer NOT NULL REFERENCES users (id_keycloak),
+    id_keycloak varchar(50) NOT NULL REFERENCES users (id_keycloak),
     id_location integer NOT NULL REFERENCES locations (id_location)
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE case_type (
 );
 
 CREATE TABLE covid_info (
-	id_keycloak integer not null,
+	id_keycloak varchar(50) not null,
 	id_case_type integer not null,
 	reporting_date timestamp without time zone not null,
 	constraint cp_covid_info PRIMARY KEY (id_keycloak, id_case_type, reporting_date),
