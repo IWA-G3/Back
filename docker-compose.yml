@@ -8,6 +8,7 @@ volumes:
 services:
   postgres-keycloak:
     image: postgres
+    container_name: postgres-keycloak
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -16,6 +17,7 @@ services:
       POSTGRES_PASSWORD: password
   keycloak:
     image: jboss/keycloak:10.0.0
+    container_name: keycloak
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres-keycloak
@@ -27,7 +29,7 @@ services:
     ports:
       - 5555:8080
     depends_on:
-      - postgres
+      - postgres-keycloak
   postgres-covid:
     image: library/postgres:13.0-alpine
     container_name: postgres-covid

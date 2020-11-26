@@ -20,7 +20,6 @@ import java.util.Map;
 @Configuration
 public class KafkaSender {
 
-    @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);

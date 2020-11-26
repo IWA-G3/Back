@@ -33,5 +33,9 @@
 
 <th:block layout:fragment="layout :: scripts"></th:block>
 
+<script th:if="${token}">
+    console.log("${token}")
+</script>
+
 </body>
 </html>
