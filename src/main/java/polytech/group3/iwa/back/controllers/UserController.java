@@ -1,0 +1,61 @@
+package polytech.group3.iwa.back.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import polytech.group3.iwa.back.models.CovidInfo;
+import polytech.group3.iwa.back.models.CovidInfoId;
+import polytech.group3.iwa.back.repositories.CaseTypeRepository;
+import polytech.group3.iwa.back.repositories.CovidInfoRepository;
+import polytech.group3.iwa.back.repositories.UserRepository;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@RestController
+@RequestMapping("api/users")
+public class UserController {
+
+    @Autowired
+    private CaseTypeRepository caseTypeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CovidInfoRepository covidInfoRepository;
+
+    @PostMapping("/declarePositive")
+    public CovidInfo newContamination() {
+
+        //Retrieve user Id
+        String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+
+        CovidInfo covidInfo = new CovidInfo(new CovidInfoId(userid, 1, LocalDateTime.now()));
+
+        //Check that all the required fields are not null
+        if (!isValidCovidInfo(covidInfo)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        //Check if the specified case type exists in the database
+        if (!caseTypeRepository.existsById(covidInfo.getCovidInfoId().getId_case_type())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        //Check if the specified user exists in the database
+        if (!userRepository.existsById(covidInfo.getCovidInfoId().getId_keycloak())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        //Save a new covid case in the database
+        return covidInfoRepository.saveAndFlush(covidInfo);
+    }
+
+    public boolean isValidCovidInfo(CovidInfo covidInfo) {
+        return covidInfo.getCovidInfoId().getId_case_type() != 0 && !Objects.equals(covidInfo.getCovidInfoId().getId_keycloak(), "") && covidInfo.getCovidInfoId().getReporting_date() != null;
+    }
+
+}
