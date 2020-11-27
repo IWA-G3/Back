@@ -1,5 +1,7 @@
 package polytech.group3.iwa.alert_contact_case.controllers;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,7 @@ import polytech.group3.iwa.alert_contact_case.models.Location;
 import polytech.group3.iwa.alert_contact_case.models.LocationKafka;
 import polytech.group3.iwa.alert_contact_case.repositories.LocationRepository;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,7 +33,6 @@ public class LocationController {
 
     @PostMapping("/add")
     public void addLocation(@RequestParam(value = "longitude") double longitude, @RequestParam(value = "latitude") double latitude) {
-
         String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         LocationKafka message = new LocationKafka(latitude, longitude, LocalDateTime.now().toString().substring(0, 19), userid);
         kafkaSender.sendMessage(message, "location");

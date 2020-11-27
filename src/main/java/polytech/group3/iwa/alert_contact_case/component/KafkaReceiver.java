@@ -71,7 +71,7 @@ public class KafkaReceiver {
 
     @KafkaListener(topics = "dangerous_location")
     public void receive(LocationKafka location) {
-        System.out.println("losalisation dangereuse reçue");
+        System.out.println("localisation dangereuse reçue");
         LOGGER.info("received dangerous location='{}'", location.toString());
         int i = locationList.size() - 1;
         List<String> listId = new ArrayList<>();

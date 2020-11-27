@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="users")
@@ -13,7 +14,6 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id_keycloak;
 
     private String contact_mail;
@@ -25,6 +25,13 @@ public class User {
     @OneToMany(mappedBy="user")
     @JsonIgnore
     private List<CovidInfo> covidInfos;
+
+    public User() {}
+
+    public User(String id_keycloak, String contact_mail) {
+        this.id_keycloak = id_keycloak;
+        this.contact_mail = contact_mail;
+    }
 
     public String getId_keycloak() {
         return id_keycloak;

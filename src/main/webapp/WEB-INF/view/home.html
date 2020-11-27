@@ -75,13 +75,13 @@
             url: 'api/users/declarePositive',
             type: 'post',
             success: function() {
-                x.innerHTML = "Declaration Reussite !"
+                x.innerHTML = "Déclaration réussie"
                 x.style.display = ""
                 setTimeout(() => { x.style.display = "none";}, 5000)
                 console.log("ok")
             },
             error: function(){
-                y.innerHTML = "Erreur de localisation"
+                y.innerHTML = "Réessayez plus tard"
                 y.style.display = ""
                 setTimeout(() => { y.style.display = "none";}, 5000)
                 console.log("erreur")

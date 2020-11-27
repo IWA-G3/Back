@@ -2,11 +2,21 @@ package polytech.group3.iwa.alert_contact_case.controllers;
 
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 //import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import polytech.group3.iwa.alert_contact_case.models.CovidInfo;
+import polytech.group3.iwa.alert_contact_case.models.CovidInfoId;
+import polytech.group3.iwa.alert_contact_case.models.User;
+import polytech.group3.iwa.alert_contact_case.repositories.UserRepository;
+
+import java.security.Principal;
+import java.time.LocalDateTime;
 //import org.springframework.web.bind.annotation.ModelAttribute;
 //import org.springframework.web.bind.annotation.PostMapping;
 //import polytech.group3.iwa.alert_contact_case.models.Login;
@@ -19,6 +29,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping({""})
     public String getIndex() {
 
@@ -26,7 +39,17 @@ public class ViewController {
     }
 
     @GetMapping({"home"})
-    public String getHome() {
+    public String getHome(Principal principal) {
+        KeycloakAuthenticationToken keycloakAuthenticationToken = (KeycloakAuthenticationToken) principal;
+        AccessToken accessToken = keycloakAuthenticationToken.getAccount().getKeycloakSecurityContext().getToken();
+        String email = accessToken.getEmail();
+        String userid = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        System.out.println(userid + email);
+        if(!userRepository.existsById(userid)) {
+            User user = new User(userid, email);
+            System.out.println(user.getId_keycloak());
+            userRepository.saveAndFlush(user);
+        }
         return "home";
     }
 //

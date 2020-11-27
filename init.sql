@@ -47,3 +47,5 @@ CREATE TABLE covid_info (
 	constraint ce1_covid_info FOREIGN KEY (id_keycloak) REFERENCES users(id_keycloak),
 	constraint ce2_covid_info FOREIGN KEY (id_case_type) REFERENCES case_type(id_case_type)
 );
+
+INSERT INTO case_type values (1, "positif");
