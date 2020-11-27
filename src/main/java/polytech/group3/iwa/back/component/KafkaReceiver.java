@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import polytech.group3.iwa.back.models.Location;
 import polytech.group3.iwa.back.models.LocationKafka;
 import polytech.group3.iwa.back.repositories.LocationRepository;
+import polytech.group3.iwa.back.repositories.UserLocationRepository;
 import polytech.group3.iwa.back.repositories.UserRepository;
 
 import java.time.Duration;
@@ -45,6 +46,9 @@ public class KafkaReceiver {
 
     @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    UserLocationRepository userLocationRepository;
 
     public KafkaReceiver() {
         super();
@@ -90,7 +94,7 @@ public class KafkaReceiver {
     }
 
     @KafkaListener(
-            groupId = "location",
+            groupId = "location3",
             topicPartitions = @TopicPartition(
                     topic = "location",
                     partitionOffsets = { @PartitionOffset(
@@ -104,9 +108,15 @@ public class KafkaReceiver {
                 message,
                 partition,
                 offset);
+
         List<Location> listDangerous = locationRepository.findDangerousLocation(message.getLongitude(), message.getLatitude(), LocalDateTime.parse(message.getLocation_date(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
-        System.out.println(listDangerous.size());
-        if (listDangerous.size() != 0) {
+        boolean willSend = true;
+        for (Location loc: listDangerous) {
+            List<String> listUsers = userLocationRepository.findUsersByLocation(loc.getId_location());
+            willSend = willSend && !listUsers.contains(message.getUserid());
+        }
+
+        if (listDangerous.size() != 0 && willSend) {
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setSubject("IMPORTANT - COVID ALERT");
             mail.setText("Hello, you have recently added a location to our application. This location was recently frequented by a person positive to covid-19. You are now considered as a contact case. Please, be tested as soon as possible.");

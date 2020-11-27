@@ -20,7 +20,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE locations (
-	id_location integer not null,
+	id_location serial not null,
 	latitude double precision not null,
 	longitude double precision not null,
 	location_date timestamp without time zone not null,
@@ -48,4 +48,4 @@ CREATE TABLE covid_info (
 	constraint ce2_covid_info FOREIGN KEY (id_case_type) REFERENCES case_type(id_case_type)
 );
 
-INSERT INTO case_type values (1, "positif");
+INSERT INTO case_type values (1, 'positif');

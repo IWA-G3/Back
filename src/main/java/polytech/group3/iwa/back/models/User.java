@@ -17,7 +17,10 @@ public class User {
 
     private String contact_mail;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany
+    @JoinTable(name="user_locations",
+            joinColumns = @JoinColumn(name="id_keycloak"),
+            inverseJoinColumns = @JoinColumn(name="id_location"))
     @JsonIgnore
     private List<Location> locations;
 
